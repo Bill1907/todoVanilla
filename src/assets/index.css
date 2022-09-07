@@ -1,0 +1,42 @@
+@charset 'utf-8';
+
+.app {
+    width: 100vw;
+    height: 100vh;
+    background: #f5f5f5;
+    display: flex;
+}
+
+.navigation-bar {
+    width: 15vw;
+    height: 100vh;
+    border-right: 1px solid gray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.append-btn {
+    width: 50px;
+    height: 50px;
+    background: black;
+    border: none;
+    border-radius: 50%;
+}
+
+.append-btn:hover {
+    background: black;
+    opacity: 0.8;
+}
+
+.colorMenu {
+    visibility: hidden;
+    width: 50px;
+    height: 50px;
+    border: none;
+    border-radius: 50%;
+    transition: all 0.5s;
+}
+.visible {
+    visibility: visible;
+}
