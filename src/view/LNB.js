@@ -1,11 +1,5 @@
 const LNB = function ({$app, onNewItem}) {
     this.colorPalette = ['#f5cfb9', '#9becc7', '#eab0e7', '#d0b4f4', '#9ed9f1', '#f4b8b5'];
-    this.state = {
-        color: '',
-        title: '',
-        content: '',
-        due: '',
-    };
 
     this.toggleVisible = (target) => {
         if (target.className.includes('hidden')) {
@@ -23,7 +17,18 @@ const LNB = function ({$app, onNewItem}) {
                 return `${acc} ${cur}`;
             }, '').trim();
         }
-    }
+    };
+
+    this.applyCreateItemEvent = (target) => {
+        target.addEventListener('click', () => {
+            onNewItem({
+                color: target.style.background,
+                title: '',
+                content: '',
+                due: '',
+            });
+        })
+    };
 
     this.renderNavBar = (target) => {
         const navBar = document.createElement('div');
@@ -36,34 +41,30 @@ const LNB = function ({$app, onNewItem}) {
         const appendButton = document.createElement('button');
         appendButton.className = 'append-btn';
         appendButton.addEventListener('click', () => {
-            const colorMenuList = document.querySelectorAll('.colorMenu');
+            const colorMenuList = document.querySelectorAll('.color-menu');
             colorMenuList.forEach((el) => {
                 this.toggleVisible(el);
+                this.applyCreateItemEvent(el);
             })
         });
         target.appendChild(appendButton);
     };
 
-    this.createColorMenuButtons = (target, list) => {
+    this.createPaletteButtons = (target, list) => {
         const menuHtml = list.reduce((acc, cur) => {
             return acc + `
-                <button class="colorMenu hidden" style="background: ${cur}"/>
+                <button class="color-menu hidden" style="background: ${cur}"/>
             `;
         }, '');
         target.innerHTML = menuHtml;
-    }
+    };
 
     this.render = () => {
-        console.log('render LNB');
+        this.$navBar = this.renderNavBar($app);
+        this.createPaletteButtons(this.$navBar, this.colorPalette);
+        this.createColorMenuButton(this.$navBar);
     };
 
-    this.setState = (newState) => {
-        this.state = newState;
-    };
-
-    this.$navBar = this.renderNavBar($app);
-    this.createColorMenuButtons(this.$navBar, this.colorPalette);
-    this.createColorMenuButton(this.$navBar);
     this.render();
 };
 
